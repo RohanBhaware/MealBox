@@ -1,13 +1,18 @@
 import API from "../services/api";
 
 export default function MessCard({ mess }) {
-  const order = async () => {
-    await API.post("/orders/create", {
-      messId: mess._id,
-      items: ["Lunch"],
-      totalPrice: 100
-    });
-    alert("Order Placed");
+  const placeOrder = async () => {
+    try {
+      await API.post("/orders/create", {
+        messId: mess._id,
+        items: ["Lunch"],
+        totalPrice: 100
+      });
+
+      alert("Order placed successfully");
+    } catch {
+      alert("Order failed");
+    }
   };
 
   return (
@@ -17,7 +22,7 @@ export default function MessCard({ mess }) {
       <p className="text-green-600">{mess.offers}</p>
 
       <button
-        onClick={order}
+        onClick={placeOrder}
         className="mt-4 w-full bg-green-500 text-white py-2 rounded"
       >
         Order Now
