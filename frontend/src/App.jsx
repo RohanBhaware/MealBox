@@ -11,6 +11,7 @@ import AddMess from "./pages/AddMess";
 import Orders from "./pages/Orders";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import MessDetails from "./pages/MessDetails";
 
 export default function App() {
   const role = localStorage.getItem("role");
@@ -18,11 +19,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* ---------- PUBLIC ROUTES ---------- */}
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
         {/* ---------- USER ROUTES ---------- */}
         <Route
           path="/user"
@@ -32,7 +31,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/my-orders"
           element={
@@ -41,7 +39,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         {/* ---------- ADMIN ROUTES ---------- */}
         <Route
           path="/admin"
@@ -51,7 +48,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/add-mess"
           element={
@@ -60,7 +56,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/orders"
           element={
@@ -69,7 +64,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
+       
+        <Route
+          path="/mess/:id"
+          element={
+            <ProtectedRoute role="user">
+              <MessDetails />
+            </ProtectedRoute>
+          }
+        />
         {/* ---------- FALLBACK ROUTE ---------- */}
         <Route
           path="*"
@@ -83,7 +86,6 @@ export default function App() {
             )
           }
         />
-
       </Routes>
     </BrowserRouter>
   );

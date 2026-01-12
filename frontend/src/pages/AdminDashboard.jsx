@@ -3,18 +3,22 @@ import Sidebar from "../components/Sidebar";
 import API from "../services/api";
 
 export default function AdminDashboard() {
-  const [messCount, setMessCount] = useState(0);
+  const [stats, setStats] = useState({
+    totalMess: 0,
+    totalOrders: 0,
+    pendingOrders: 0
+  });
 
   useEffect(() => {
-    fetchMessCount();
+    fetchDashboardStats();
   }, []);
 
-  const fetchMessCount = async () => {
+  const fetchDashboardStats = async () => {
     try {
-      const res = await API.get("/mess/count");
-      setMessCount(res.data.totalMess);
+      const res = await API.get("/admin/dashboard-stats");
+      setStats(res.data);
     } catch (err) {
-      console.error("Failed to fetch mess count");
+      console.error("Failed to load dashboard stats");
     }
   };
 
@@ -27,34 +31,35 @@ export default function AdminDashboard() {
           Admin Dashboard
         </h2>
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          {/* TOTAL MESS CARD */}
+          {/* TOTAL MESS */}
           <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
             <h3 className="text-lg text-gray-600">
               Total Mess
             </h3>
             <p className="text-4xl font-bold text-blue-600 mt-2">
-              {messCount}
+              {stats.totalMess}
             </p>
           </div>
 
-          {/* FUTURE CARDS */}
-          <div className="bg-white p-6 rounded-xl shadow">
+          {/* TOTAL ORDERS */}
+          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
             <h3 className="text-lg text-gray-600">
               Total Orders
             </h3>
             <p className="text-4xl font-bold text-green-600 mt-2">
-              —
+              {stats.totalOrders}
             </p>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
+          {/* PENDING ORDERS */}
+          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
             <h3 className="text-lg text-gray-600">
               Pending Orders
             </h3>
             <p className="text-4xl font-bold text-yellow-500 mt-2">
-              —
+              {stats.pendingOrders}
             </p>
           </div>
 
